@@ -113,27 +113,22 @@ export default function Page() {
           />
         </div>
 
-         {/* Headline + copy */}
+         {/* Copy */}
          {variant === 'personal' ? (
-           <>
-             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Personal</h1>
-             <p className="mt-6 text-zinc-300 leading-relaxed text-lg">
-               Never click a link again to get where you need to. Web browsing should be dead simple.
+           <div className="space-y-4 text-zinc-300">
+             <p className="leading-relaxed text-lg">
+               "Never click a link again to get where you need to."
              </p>
-           </>
+             <p className="leading-relaxed text-lg">
+               "Web browsing should be dead simple."
+             </p>
+           </div>
          ) : (
-           <>
-             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Enterprise</h1>
-             <div className="mt-6 space-y-4 text-zinc-300">
-               <p className="leading-relaxed text-lg">
-                 Don't lose another user because they can't find what they're looking for.
-               </p>
-               <p className="leading-relaxed text-lg">
-                 AI-based web navigation is the future. Understand how you can prepare your organization for
-                 Generative Engine Optimization.
-               </p>
-             </div>
-           </>
+           <div className="space-y-4 text-zinc-300">
+             <p className="leading-relaxed text-lg">
+               "AI web navigation is coming, is your website prepared for Generative Engine Optimization?"
+             </p>
+           </div>
          )}
 
          {/* Form / states */}
