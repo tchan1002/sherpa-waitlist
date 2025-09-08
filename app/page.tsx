@@ -82,6 +82,7 @@ export default function Home() {
       <section className="hero">
         <div className="container">
           <h1>Web browsing should be dead simple. Never press a button again to get where you need to.</h1>
+          <p>Join thousands of users who are already experiencing effortless web navigation with Sherpa's AI-powered browsing assistant.</p>
         </div>
       </section>
 
@@ -180,7 +181,7 @@ export default function Home() {
                 className="submit-btn"
                 disabled={isSubmitting || !sheetsWebhookUrl}
               >
-                {isSubmitting ? 'Submitting...' : 'Get Early Access'}
+                {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
               </button>
 
               <p className="small-print">
