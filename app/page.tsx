@@ -75,7 +75,7 @@ export default function Page() {
   }
 
   return (
-     <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
+    <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
        <div className="relative w-full max-w-[560px] rounded-3xl border border-zinc-800/70 bg-zinc-900/70 p-8 sm:p-10 shadow-2xl backdrop-blur-sm">
          {/* Wordmark */}
          <div className="mb-6 text-zinc-300/90 tracking-tight text-lg font-medium">Sherpa</div>
