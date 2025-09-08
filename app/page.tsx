@@ -78,7 +78,7 @@ export default function Page() {
     <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
        <div className="relative w-full max-w-[560px] rounded-3xl border border-zinc-800/70 bg-zinc-900/70 p-8 sm:p-10 shadow-2xl backdrop-blur-sm">
          {/* Wordmark */}
-         <h1 className="mb-6 text-white tracking-tight text-4xl sm:text-5xl font-bold">Sherpa</h1>
+         <div className="mb-6 text-zinc-300/90 tracking-tight text-lg font-medium">Sherpa</div>
 
          {/* Green pill toggle */}
          <div
@@ -113,22 +113,28 @@ export default function Page() {
           />
         </div>
 
-         {/* Copy */}
+         {/* Headline + copy */}
          {variant === 'personal' ? (
-           <div className="space-y-4 text-zinc-300">
-             <p className="leading-relaxed text-lg">
-               Never click a link again to get where you need to.
-             </p>
-             <p className="leading-relaxed text-lg">
-               Web browsing should be dead simple.
-             </p>
-           </div>
+           <>
+             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Personal</h1>
+             <div className="mt-6 space-y-4 text-zinc-300">
+               <p className="leading-relaxed text-lg">
+                 Never click a link again to get where you need to.
+               </p>
+               <p className="leading-relaxed text-lg">
+                 Web browsing should be dead simple.
+               </p>
+             </div>
+           </>
          ) : (
-           <div className="space-y-4 text-zinc-300">
-             <p className="leading-relaxed text-lg">
-               AI web navigation is here, is your website prepared for Generative Engine Optimization?
-             </p>
-           </div>
+           <>
+             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Enterprise</h1>
+             <div className="mt-6 space-y-4 text-zinc-300">
+               <p className="leading-relaxed text-lg">
+                 AI web navigation is here, is your website prepared for Generative Engine Optimization?
+               </p>
+             </div>
+           </>
          )}
 
          {/* Form / states */}
