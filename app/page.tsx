@@ -74,17 +74,17 @@ export default function Page() {
   }
 
   return (
-    <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
-      <div className="relative w-full max-w-[560px] rounded-3xl border border-zinc-800/70 bg-zinc-900/70 p-6 sm:p-8 shadow-2xl">
-        {/* Wordmark */}
-        <div className="mb-4 text-zinc-300/90 tracking-tight text-lg">Sherpa</div>
+     <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
+       <div className="relative w-full max-w-[560px] rounded-3xl border border-zinc-800/70 bg-zinc-900/70 p-8 sm:p-10 shadow-2xl backdrop-blur-sm">
+         {/* Wordmark */}
+         <div className="mb-6 text-zinc-300/90 tracking-tight text-lg font-medium">Sherpa</div>
 
-        {/* Green pill toggle */}
-        <div
-          role="tablist"
-          aria-label="Select audience"
-          className="relative mb-8 grid grid-cols-2 rounded-full border border-zinc-700 bg-zinc-800/70 p-1"
-        >
+         {/* Green pill toggle */}
+         <div
+           role="tablist"
+           aria-label="Select audience"
+           className="relative mb-10 grid grid-cols-2 rounded-full border border-zinc-700/50 bg-zinc-800/50 p-1 backdrop-blur-sm"
+         >
           {(['personal', 'enterprise'] as Variant[]).map((v) => {
             const active = variant === v;
             return (
@@ -112,86 +112,88 @@ export default function Page() {
           />
         </div>
 
-        {/* Headline + copy */}
-        {variant === 'personal' ? (
-          <>
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">Sherpa Personal</h1>
-            <p className="mt-3 text-zinc-300">
-              Never click a link again to get where you need to. Web browsing should be dead simple.
-            </p>
-          </>
-        ) : (
-          <>
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">Sherpa Enterprise</h1>
-            <div className="mt-3 space-y-2 text-zinc-300">
-              <p>Don’t lose another user because they can’t find what they’re looking for.</p>
-              <p>
-                AI-based web navigation is the future. Understand how you can prepare your organization for
-                Generative Engine Optimization.
-              </p>
-            </div>
-          </>
-        )}
+         {/* Headline + copy */}
+         {variant === 'personal' ? (
+           <>
+             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Personal</h1>
+             <p className="mt-6 text-zinc-300 leading-relaxed text-lg">
+               Never click a link again to get where you need to. Web browsing should be dead simple.
+             </p>
+           </>
+         ) : (
+           <>
+             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Enterprise</h1>
+             <div className="mt-6 space-y-4 text-zinc-300">
+               <p className="leading-relaxed text-lg">
+                 Don't lose another user because they can't find what they're looking for.
+               </p>
+               <p className="leading-relaxed text-lg">
+                 AI-based web navigation is the future. Understand how you can prepare your organization for
+                 Generative Engine Optimization.
+               </p>
+             </div>
+           </>
+         )}
 
-        {/* Form / states */}
-        {!submitted ? (
-          <form onSubmit={onSubmit} className="mt-6 space-y-3">
+         {/* Form / states */}
+         {!submitted ? (
+           <form onSubmit={onSubmit} className="mt-8 space-y-4">
             {/* Honeypot (not visible) */}
             <input id="website" name="website" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
 
-            <label className="block">
-              <span className="sr-only">Email</span>
-              <input
-                required
-                type="email"
-                name="email"
-                placeholder="you@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-12 rounded-full bg-zinc-900 border border-zinc-700 px-4 text-white placeholder-zinc-500 outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </label>
+             <label className="block">
+               <span className="sr-only">Email</span>
+               <input
+                 required
+                 type="email"
+                 name="email"
+                 placeholder="you@email.com"
+                 value={email}
+                 onChange={(e) => setEmail(e.target.value)}
+                 className="w-full h-12 rounded-full bg-zinc-900/50 border border-zinc-700/50 px-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm"
+               />
+             </label>
 
-            {variant === 'enterprise' && (
-              <label className="block">
-                <span className="sr-only">Company website</span>
-                <input
-                  type="url"
-                  name="company_website"
-                  placeholder="https://company.com"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                  className="w-full h-12 rounded-full bg-zinc-900 border border-zinc-700 px-4 text-white placeholder-zinc-500 outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </label>
-            )}
+             {variant === 'enterprise' && (
+               <label className="block">
+                 <span className="sr-only">Company website</span>
+                 <input
+                   type="url"
+                   name="company_website"
+                   placeholder="https://company.com"
+                   value={company}
+                   onChange={(e) => setCompany(e.target.value)}
+                   className="w-full h-12 rounded-full bg-zinc-900/50 border border-zinc-700/50 px-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm"
+                 />
+               </label>
+             )}
 
-            <button
-              type="submit"
-              disabled={!canSubmit || submitting}
-              className={[
-                'w-full h-12 rounded-full font-semibold text-black focus:ring-2 focus:ring-green-400',
-                submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600',
-              ].join(' ')}
-            >
-              {submitting ? 'Submitting…' : variant === 'personal' ? 'Join the Waitlist' : 'Learn More'}
-            </button>
+             <button
+               type="submit"
+               disabled={!canSubmit || submitting}
+               className={[
+                 'w-full h-12 rounded-full font-semibold text-black focus:ring-2 focus:ring-green-400 transition-all duration-200',
+                 submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
+               ].join(' ')}
+             >
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Join the Waitlist' : 'Learn More'}
+             </button>
 
-            {error && <p className="text-sm text-red-400 text-center">{error}</p>}
+             {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
 
-            <p className="text-xs text-zinc-500 text-center">
-              By submitting, you agree to receive email updates from Sherpa.
-            </p>
+             <p className="text-xs text-zinc-500 text-center mt-4 leading-relaxed">
+               By submitting, you agree to receive email updates from Sherpa.
+             </p>
           </form>
-        ) : (
-          <div className="mt-6 rounded-2xl border border-green-600/40 bg-green-500/10 p-4">
-            <p className="text-green-400">
-              {variant === 'personal'
-                ? "You're on the list. We’ll email you when the beta opens."
-                : 'Thanks! We’ll review your site and follow up.'}
-            </p>
-          </div>
-        )}
+         ) : (
+           <div className="mt-8 rounded-2xl border border-green-600/40 bg-green-500/10 p-6 backdrop-blur-sm">
+             <p className="text-green-400 text-center leading-relaxed">
+               {variant === 'personal'
+                 ? "You're on the list. We'll email you when the beta opens."
+                 : 'Thanks! We'll review your site and follow up.'}
+             </p>
+           </div>
+         )}
       </div>
     </main>
   );
