@@ -126,7 +126,7 @@ export default function Page() {
          ) : (
            <div className="space-y-4 text-zinc-300">
              <p className="leading-relaxed text-lg">
-               AI web navigation is coming, is your website prepared for Generative Engine Optimization?
+               AI web navigation is here, is your website prepared for Generative Engine Optimization?
              </p>
            </div>
          )}
