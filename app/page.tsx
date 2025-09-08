@@ -59,16 +59,26 @@ export default function Page() {
     });
 
     try {
-      await fetch(ENDPOINT, {
+      const response = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: payload.toString(),
-        mode: 'no-cors', // opaque response; treat as success if no error thrown
       });
-      (window as any).analytics?.track?.('submit_waitlist', { variant });
-      setSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again.');
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          (window as any).analytics?.track?.('submit_waitlist', { variant });
+          setSubmitted(true);
+        } else {
+          setError('Failed to join waitlist. Please try again.');
+        }
+      } else {
+        setError(`Server error (${response.status}). Please try again.`);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setSubmitting(false);
     }
@@ -191,8 +201,8 @@ export default function Page() {
            <div className="mt-8 rounded-2xl border border-green-600/40 bg-green-500/10 p-6 backdrop-blur-sm">
              <p className="text-green-400 text-center leading-relaxed">
                {variant === 'personal'
-                 ? "You're on the list. We'll email you when the beta opens."
-                 : "Thanks! We'll review your site and follow up."}
+                 ? "You're on the list! We'll email you when the beta opens."
+                 : "You're on the list! We'll review your site and follow up."}
              </p>
            </div>
          )}
