@@ -59,23 +59,15 @@ export default function Page() {
     });
 
     try {
-      const response = await fetch(ENDPOINT, {
+      await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: payload.toString(),
+        mode: 'no-cors',
       });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          (window as any).analytics?.track?.('submit_waitlist', { variant });
-          setSubmitted(true);
-        } else {
-          setError('Failed to join waitlist. Please try again.');
-        }
-      } else {
-        setError(`Server error (${response.status}). Please try again.`);
-      }
+      // If we get here without error, assume success
+      (window as any).analytics?.track?.('submit_waitlist', { variant });
+      setSubmitted(true);
     } catch (error) {
       console.error('Form submission error:', error);
       setError('Network error. Please check your connection and try again.');
