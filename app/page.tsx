@@ -186,7 +186,7 @@ export default function Page() {
              <p className="text-green-400 text-center leading-relaxed">
                {variant === 'personal'
                  ? "You're on the list. We'll email you when the beta opens."
-                 : 'Thanks! We'll review your site and follow up.'}
+                 : "Thanks! We'll review your site and follow up."}
              </p>
            </div>
          )}
