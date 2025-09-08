@@ -1,203 +1,199 @@
-'use client'
+'use client';
+import { useEffect, useMemo, useState } from 'react';
 
-import { useState } from 'react'
+type Variant = 'personal' | 'enterprise';
 
-export default function Home() {
-  const [email, setEmail] = useState('')
-  const [userType, setUserType] = useState<'Personal' | 'Enterprise'>('Personal')
-  const [businessWebsite, setBusinessWebsite] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [statusMessage, setStatusMessage] = useState<{
-    type: 'success' | 'error' | 'info'
-    text: string
-  } | null>(null)
+export default function Page() {
+  const [variant, setVariant] = useState<Variant>('personal');
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const sheetsWebhookUrl = process.env.NEXT_PUBLIC_SHEETS_WEBHOOK_URL
+  const ENDPOINT =
+    'https://script.google.com/macros/s/AKfycbxJwTyZ12dotgmlzMCEWxk-vajYe_8d_vTIb2q0sFOY_qSIB_xmuuT8O7n9fXzyvBaI/exec';
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+  // initial analytics
+  useEffect(() => {
+    (window as any).analytics?.track?.('view_variant', { variant: 'personal' });
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateEmail(email)) {
-      setStatusMessage({
-        type: 'error',
-        text: 'Please enter a valid email address.'
-      })
-      return
+  const canSubmit = useMemo(() => {
+    if (!/\S+@\S+\.\S+/.test(email)) return false;
+    if (variant === 'enterprise' && company.trim().length > 0) {
+      try {
+        new URL(company);
+      } catch {
+        return false;
+      }
+    }
+    return true;
+  }, [email, company, variant]);
+
+  const switchTo = (v: Variant) => {
+    setVariant(v);
+    (window as any).analytics?.track?.('toggle_variant', { to: v });
+  };
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!canSubmit || submitting) return;
+
+    setSubmitting(true);
+    setError(null);
+
+    // Honeypot (hidden field)
+    const botTrap = (document.getElementById('website') as HTMLInputElement | null)?.value || '';
+    if (botTrap) {
+      setSubmitting(false);
+      return;
     }
 
-    if (!sheetsWebhookUrl) {
-      setStatusMessage({
-        type: 'info',
-        text: 'Waitlist opening soon — check back later.'
-      })
-      return
-    }
-
-    setIsSubmitting(true)
-    setStatusMessage(null)
+    const payload = new URLSearchParams({
+      Email: email.trim(),
+      UserType: variant,
+      BusinessWebsite: variant === 'enterprise' ? company.trim() : '',
+      UserAgent: navigator.userAgent || '',
+    });
 
     try {
-      const response = await fetch(sheetsWebhookUrl, {
+      await fetch(ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          user_type: userType,
-          business_website: userType === 'Enterprise' ? businessWebsite : ''
-        }),
-      })
-
-      if (response.ok) {
-        setStatusMessage({
-          type: 'success',
-          text: "You're on the list. We'll reach out soon."
-        })
-        // Reset form
-        setEmail('')
-        setUserType('Personal')
-        setBusinessWebsite('')
-      } else {
-        throw new Error('Failed to submit')
-      }
-    } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        text: 'Something went wrong. Please try again.'
-      })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: payload.toString(),
+        mode: 'no-cors', // opaque response; treat as success if no error thrown
+      });
+      (window as any).analytics?.track?.('submit_waitlist', { variant });
+      setSubmitted(true);
+    } catch {
+      setError('Something went wrong. Please try again.');
     } finally {
-      setIsSubmitting(false)
+      setSubmitting(false);
     }
   }
 
   return (
-    <main>
-      {/* Hero Section - Personal */}
-      <section className="hero">
-        <div className="container">
-          <h1>Web browsing should be dead simple. Never press a button again to get where you need to.</h1>
-          <p>Join thousands of users who are already experiencing effortless web navigation with Sherpa's AI-powered browsing assistant.</p>
-        </div>
-      </section>
+    <main className="min-h-dvh bg-black text-white grid place-items-center p-4">
+      <div className="relative w-full max-w-[560px] rounded-3xl border border-zinc-800/70 bg-zinc-900/70 p-6 sm:p-8 shadow-2xl">
+        {/* Wordmark */}
+        <div className="mb-4 text-zinc-300/90 tracking-tight text-lg">Sherpa</div>
 
-      {/* Enterprise Section */}
-      <section className="enterprise">
-        <div className="container">
-          <h2>Don't lose another customer because they can't find the info they need.</h2>
-          <ul>
-            <li>Lower churn by making navigation effortless</li>
-            <li>Increase accessibility (vital for clinics, elderly centers, NGOs)</li>
-            <li>Get insights: see what your users really want</li>
-          </ul>
-          <p className="note">
-            Add your business website in the form so we can consider it in our development.
-          </p>
-        </div>
-      </section>
-
-      {/* Form Section */}
-      <section className="form-section">
-        <div className="container">
-          <h2>Join the waitlist</h2>
-          <div className="form-container">
-            <form onSubmit={handleSubmit}>
-              {statusMessage && (
-                <div 
-                  className={`status-message ${statusMessage.type}`}
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {statusMessage.text}
-                </div>
-              )}
-
-              <div className="form-group">
-                <label htmlFor="email">Email *</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  aria-describedby="email-error"
-                />
-              </div>
-
-              <div className="form-group">
-                <fieldset>
-                  <legend>I'm here as:</legend>
-                  <div className="radio-group">
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="personal"
-                        name="userType"
-                        value="Personal"
-                        checked={userType === 'Personal'}
-                        onChange={(e) => setUserType(e.target.value as 'Personal' | 'Enterprise')}
-                        disabled={isSubmitting}
-                      />
-                      <label htmlFor="personal">Personal</label>
-                    </div>
-                    <div className="radio-option">
-                      <input
-                        type="radio"
-                        id="enterprise"
-                        name="userType"
-                        value="Enterprise"
-                        checked={userType === 'Enterprise'}
-                        onChange={(e) => setUserType(e.target.value as 'Personal' | 'Enterprise')}
-                        disabled={isSubmitting}
-                      />
-                      <label htmlFor="enterprise">Enterprise</label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-
-              {userType === 'Enterprise' && (
-                <div className="form-group">
-                  <label htmlFor="businessWebsite">Business Website</label>
-                  <input
-                    type="url"
-                    id="businessWebsite"
-                    value={businessWebsite}
-                    onChange={(e) => setBusinessWebsite(e.target.value)}
-                    disabled={isSubmitting}
-                    placeholder="https://yourcompany.com"
-                  />
-                </div>
-              )}
-
+        {/* Green pill toggle */}
+        <div
+          role="tablist"
+          aria-label="Select audience"
+          className="relative mb-8 grid grid-cols-2 rounded-full border border-zinc-700 bg-zinc-800/70 p-1"
+        >
+          {(['personal', 'enterprise'] as Variant[]).map((v) => {
+            const active = variant === v;
+            return (
               <button
-                type="submit"
-                className="submit-btn"
-                disabled={isSubmitting || !sheetsWebhookUrl}
+                key={v}
+                role="tab"
+                aria-selected={active}
+                onClick={() => switchTo(v)}
+                className={[
+                  'relative z-10 h-10 rounded-full text-sm font-medium transition-colors focus:outline-none',
+                  active ? 'text-black' : 'text-zinc-300 hover:text-white',
+                ].join(' ')}
               >
-                {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
+                <span className="inline-block w-full px-4">
+                  {v === 'personal' ? 'Personal' : 'Enterprise'}
+                </span>
               </button>
+            );
+          })}
+          {/* sliding green thumb */}
+          <span
+            aria-hidden
+            className="absolute inset-y-1 w-1/2 rounded-full transition-transform duration-200 bg-green-500 shadow-[0_0_0_6px_rgba(34,197,94,0.15)]"
+            style={{ transform: variant === 'personal' ? 'translateX(0%)' : 'translateX(100%)' }}
+          />
+        </div>
 
-              <p className="small-print">
-                By joining, you agree to be contacted about Sherpa updates. We never sell your data.
+        {/* Headline + copy */}
+        {variant === 'personal' ? (
+          <>
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">Sherpa Personal</h1>
+            <p className="mt-3 text-zinc-300">
+              Never click a link again to get where you need to. Web browsing should be dead simple.
+            </p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">Sherpa Enterprise</h1>
+            <div className="mt-3 space-y-2 text-zinc-300">
+              <p>Don’t lose another user because they can’t find what they’re looking for.</p>
+              <p>
+                AI-based web navigation is the future. Understand how you can prepare your organization for
+                Generative Engine Optimization.
               </p>
-            </form>
-          </div>
-        </div>
-      </section>
+            </div>
+          </>
+        )}
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <p>Made with ❤️ by Sherpa</p>
-        </div>
-      </footer>
+        {/* Form / states */}
+        {!submitted ? (
+          <form onSubmit={onSubmit} className="mt-6 space-y-3">
+            {/* Honeypot (not visible) */}
+            <input id="website" name="website" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
+
+            <label className="block">
+              <span className="sr-only">Email</span>
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-12 rounded-full bg-zinc-900 border border-zinc-700 px-4 text-white placeholder-zinc-500 outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </label>
+
+            {variant === 'enterprise' && (
+              <label className="block">
+                <span className="sr-only">Company website</span>
+                <input
+                  type="url"
+                  name="company_website"
+                  placeholder="https://company.com"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  className="w-full h-12 rounded-full bg-zinc-900 border border-zinc-700 px-4 text-white placeholder-zinc-500 outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </label>
+            )}
+
+            <button
+              type="submit"
+              disabled={!canSubmit || submitting}
+              className={[
+                'w-full h-12 rounded-full font-semibold text-black focus:ring-2 focus:ring-green-400',
+                submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600',
+              ].join(' ')}
+            >
+              {submitting ? 'Submitting…' : variant === 'personal' ? 'Join the Waitlist' : 'Learn More'}
+            </button>
+
+            {error && <p className="text-sm text-red-400 text-center">{error}</p>}
+
+            <p className="text-xs text-zinc-500 text-center">
+              By submitting, you agree to receive email updates from Sherpa.
+            </p>
+          </form>
+        ) : (
+          <div className="mt-6 rounded-2xl border border-green-600/40 bg-green-500/10 p-4">
+            <p className="text-green-400">
+              {variant === 'personal'
+                ? "You're on the list. We’ll email you when the beta opens."
+                : 'Thanks! We’ll review your site and follow up.'}
+            </p>
+          </div>
+        )}
+      </div>
     </main>
-  )
+  );
 }
+
