@@ -21,6 +21,7 @@ export default function Page() {
 
   const canSubmit = useMemo(() => {
     if (!/\S+@\S+\.\S+/.test(email)) return false;
+    // Company website is optional for enterprise, but if provided, must be valid URL
     if (variant === 'enterprise' && company.trim().length > 0) {
       try {
         new URL(company);
@@ -156,11 +157,11 @@ export default function Page() {
 
              {variant === 'enterprise' && (
                <label className="block">
-                 <span className="sr-only">Company website</span>
+                 <span className="sr-only">Company website (optional)</span>
                  <input
                    type="url"
                    name="company_website"
-                   placeholder="https://company.com"
+                   placeholder="https://company.com (optional)"
                    value={company}
                    onChange={(e) => setCompany(e.target.value)}
                    className="w-full h-12 rounded-full bg-zinc-900/50 border border-zinc-700/50 px-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm"
