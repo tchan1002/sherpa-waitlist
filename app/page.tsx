@@ -12,7 +12,7 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
 
   const ENDPOINT =
-    'https://script.google.com/macros/s/AKfycbxfTN11PBb6N-Ru792hvyYQiXsUmDSwcTzrQEnF9wRLNfA6FmyH-sX4Idx-6L26GyjM/exec';
+    'https://script.google.com/macros/s/AKfycbwJ2pAK55QyRkng01G42BMqqoVzJhbo0kVOG8FZOrhD_jU4J3kVvxmBL0-mF689Yb0Y/exec';
 
   // initial analytics
   useEffect(() => {
