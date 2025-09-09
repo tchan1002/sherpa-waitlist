@@ -5,6 +5,7 @@ type Variant = 'personal' | 'enterprise';
 
 export default function Page() {
   const [variant, setVariant] = useState<Variant>('personal');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -20,9 +21,13 @@ export default function Page() {
   }, []);
 
   const canSubmit = useMemo(() => {
-    if (!/\S+@\S+\.\S+/.test(email)) return false;
+    if (variant === 'personal') {
+      if (!phone.trim()) return false;
+    } else {
+      if (!/\S+@\S+\.\S+/.test(email)) return false;
+    }
     return true;
-  }, [email, company, variant]);
+  }, [phone, email, company, variant]);
 
   const switchTo = (v: Variant) => {
     setVariant(v);
@@ -44,7 +49,7 @@ export default function Page() {
     }
 
     const payload = new URLSearchParams({
-      Email: email.trim(),
+      Contact: variant === 'personal' ? phone.trim() : email.trim(),
       UserType: variant,
       BusinessWebsite: variant === 'enterprise' ? company.trim() : '',
       UserAgent: navigator.userAgent || '',
@@ -105,28 +110,22 @@ export default function Page() {
           />
         </div>
 
-         {/* Headline + copy */}
+         {/* Copy */}
          {variant === 'personal' ? (
-           <>
-             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Personal</h1>
-             <div className="mt-6 space-y-4 text-zinc-300">
-               <p className="leading-relaxed text-lg">
-                 Never click a link again to get where you need to.
-               </p>
-               <p className="leading-relaxed text-lg">
-                 Web browsing should be dead simple.
-               </p>
-             </div>
-           </>
+           <div className="space-y-4 text-zinc-300">
+             <p className="leading-relaxed text-lg">
+               Never click a link again to get where you need to.
+             </p>
+             <p className="leading-relaxed text-lg">
+               Web browsing should be dead simple.
+             </p>
+           </div>
          ) : (
-           <>
-             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">Sherpa Enterprise</h1>
-             <div className="mt-6 space-y-4 text-zinc-300">
-               <p className="leading-relaxed text-lg">
-                 AI web navigation is here, is your website prepared for Generative Engine Optimization?
-               </p>
-             </div>
-           </>
+           <div className="space-y-4 text-zinc-300">
+             <p className="leading-relaxed text-lg">
+               AI web navigation is here, is your website prepared?
+             </p>
+           </div>
          )}
 
          {/* Form / states */}
@@ -136,14 +135,14 @@ export default function Page() {
             <input id="website" name="website" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
 
              <label className="block">
-               <span className="sr-only">Email</span>
+               <span className="sr-only">{variant === 'personal' ? 'Phone number' : 'Email'}</span>
                <input
                  required
-                 type="email"
-                 name="email"
-                 placeholder="you@email.com"
-                 value={email}
-                 onChange={(e) => setEmail(e.target.value)}
+                 type={variant === 'personal' ? 'tel' : 'email'}
+                 name={variant === 'personal' ? 'phone' : 'email'}
+                 placeholder={variant === 'personal' ? '+1 (555) 123-4567' : 'you@email.com'}
+                 value={variant === 'personal' ? phone : email}
+                 onChange={(e) => variant === 'personal' ? setPhone(e.target.value) : setEmail(e.target.value)}
                  className="w-full h-12 rounded-full bg-zinc-900/50 border border-zinc-700/50 px-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm"
                />
              </label>
@@ -170,7 +169,7 @@ export default function Page() {
                  submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
                ].join(' ')}
              >
-               {submitting ? 'Submitting…' : variant === 'personal' ? 'Join the Waitlist' : 'Get a Free Consultation'}
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Learn More'}
              </button>
 
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
