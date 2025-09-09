@@ -178,7 +178,7 @@ export default function Page() {
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
 
              <p className="text-xs text-zinc-500 text-center mt-4 leading-relaxed">
-               By submitting, you agree to receive updates from Toby.
+               By submitting, you agree to receive updates.
              </p>
           </form>
          ) : (
