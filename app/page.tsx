@@ -192,7 +192,7 @@ export default function Page() {
 
       {/* Made with love footer */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-zinc-500 text-sm">
-        Made with ❤️
+        Made with <span className="text-green-500">❤️</span>
       </div>
     </main>
   );
