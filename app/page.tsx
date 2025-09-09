@@ -50,22 +50,20 @@ export default function Page() {
       UserAgent: navigator.userAgent || '',
     });
 
-    try {
-      await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: payload.toString(),
-        mode: 'no-cors',
-      });
-      // If we get here without error, assume success
-      (window as any).analytics?.track?.('submit_waitlist', { variant });
-      setSubmitted(true);
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setError('Network error. Please check your connection and try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    // Show success immediately
+    (window as any).analytics?.track?.('submit_waitlist', { variant });
+    setSubmitted(true);
+    setSubmitting(false);
+
+    // Send data in background (fire and forget)
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: payload.toString(),
+      mode: 'no-cors',
+    }).catch(error => {
+      console.error('Background submission error:', error);
+    });
   }
 
   return (
@@ -190,6 +188,11 @@ export default function Page() {
              </p>
            </div>
          )}
+      </div>
+
+      {/* Made with love footer */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-zinc-500 text-sm">
+        Made with ❤️
       </div>
     </main>
   );
