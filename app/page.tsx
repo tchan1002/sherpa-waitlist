@@ -125,6 +125,9 @@ export default function Page() {
              <p className="leading-relaxed text-lg">
                AI web navigation is here, is your website prepared?
              </p>
+               <p className="leading-relaxed text-lg">
+               Learn how to conduct Generative Engine Optimization.
+             </p>
            </div>
          )}
 
@@ -169,13 +172,13 @@ export default function Page() {
                  submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
                ].join(' ')}
              >
-               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Learn More'}
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out'}
              </button>
 
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
 
              <p className="text-xs text-zinc-500 text-center mt-4 leading-relaxed">
-               By submitting, you agree to receive email updates from Sherpa.
+               By submitting, you agree to receive updates from Toby.
              </p>
           </form>
          ) : (

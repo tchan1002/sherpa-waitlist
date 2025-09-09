@@ -3,10 +3,10 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://trysherpa.org'),
-  title: 'Sherpa — web browsing, dead simple',
+  title: 'Sherpa — your web guide',
   description: 'Sherpa is an AI guide for effortless web navigation — for everyone and every site.',
   openGraph: {
-    title: 'Sherpa — web browsing, dead simple',
+    title: 'Sherpa — your web guide',
     description: 'Sherpa is an AI guide for effortless web navigation — for everyone and every site.',
     url: 'https://trysherpa.org/',
     siteName: 'Sherpa',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Sherpa - Web browsing, dead simple',
+        alt: 'Sherpa - Your web guide',
       },
     ],
     locale: 'en_US',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sherpa — web browsing, dead simple',
+    title: 'Sherpa — your web guide',
     description: 'Sherpa is an AI guide for effortless web navigation — for everyone and every site.',
     images: ['/og.png'],
   },
