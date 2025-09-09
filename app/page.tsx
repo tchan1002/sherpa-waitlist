@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
-type Variant = 'personal' | 'enterprise';
+type Variant = 'personal' | 'company';
 
 export default function Page() {
   const [variant, setVariant] = useState<Variant>('personal');
@@ -47,7 +47,7 @@ export default function Page() {
     const payload = new URLSearchParams({
       Email: phone.trim(),
       UserType: variant,
-      BusinessWebsite: variant === 'enterprise' ? company.trim() : '',
+      BusinessWebsite: variant === 'company' ? company.trim() : '',
       UserAgent: navigator.userAgent || '',
     });
 
@@ -79,7 +79,7 @@ export default function Page() {
            aria-label="Select audience"
            className="relative mb-10 grid grid-cols-2 rounded-full border border-zinc-700/50 bg-zinc-800/50 p-1 backdrop-blur-sm"
          >
-          {(['personal', 'enterprise'] as Variant[]).map((v) => {
+          {(['personal', 'company'] as Variant[]).map((v) => {
             const active = variant === v;
             return (
               <button
@@ -93,7 +93,7 @@ export default function Page() {
                 ].join(' ')}
               >
                 <span className="inline-block w-full px-4">
-                  {v === 'personal' ? 'Personal' : 'Enterprise'}
+                  {v === 'personal' ? 'Personal' : 'Company'}
                 </span>
               </button>
             );
@@ -110,19 +110,19 @@ export default function Page() {
          {variant === 'personal' ? (
            <div className="space-y-4 text-zinc-300">
              <p className="leading-relaxed text-lg">
-               Never click a link again to get where you need to.
+               To never clicking a link again!
              </p>
              <p className="leading-relaxed text-lg">
-               Browse with purpose.
+               Browse with purpose 👇
              </p>
            </div>
          ) : (
            <div className="space-y-4 text-zinc-300">
              <p className="leading-relaxed text-lg">
-               AI web navigation is here, is your website prepared?
+               AI web navigation is here ...
              </p>
                <p className="leading-relaxed text-lg">
-               Learn about Generative Engine Optimization.
+               Is your website easy to read?
              </p>
            </div>
          )}
@@ -146,7 +146,7 @@ export default function Page() {
                />
              </label>
 
-             {variant === 'enterprise' && (
+             {variant === 'company' && (
                <label className="block">
                  <span className="sr-only">Company website</span>
                  <input
@@ -168,7 +168,7 @@ export default function Page() {
                  submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
                ].join(' ')}
              >
-               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out'}
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Help Me Check'}
              </button>
 
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
