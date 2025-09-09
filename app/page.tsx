@@ -185,7 +185,7 @@ export default function Page() {
            <div className="mt-8 rounded-2xl border border-green-600/40 bg-green-500/10 p-6 backdrop-blur-sm">
              <p className="text-green-400 text-center leading-relaxed">
                {variant === 'personal'
-                 ? "You're on the list! We'll email you when the beta opens."
+                 ? "You're on the list! We'll text you."
                  : "You're on the list! We'll review your site and follow up."}
              </p>
            </div>
