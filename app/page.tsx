@@ -176,7 +176,7 @@ export default function Page() {
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
 
              <p className="text-xs text-zinc-500 text-center mt-4 leading-relaxed">
-               By submitting, you agree to receive email updates from Sherpa.
+               Made with <span className="text-green-500">❤️</span>
              </p>
           </form>
          ) : (
@@ -188,11 +188,6 @@ export default function Page() {
              </p>
            </div>
          )}
-      </div>
-
-      {/* Made with love footer */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-zinc-500 text-sm">
-        Made with <span className="text-green-500">❤️</span>
       </div>
     </main>
   );
