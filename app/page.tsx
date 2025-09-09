@@ -21,13 +21,9 @@ export default function Page() {
   }, []);
 
   const canSubmit = useMemo(() => {
-    if (variant === 'personal') {
-      if (!phone.trim()) return false;
-    } else {
-      if (!/\S+@\S+\.\S+/.test(email)) return false;
-    }
+    if (!phone.trim()) return false;
     return true;
-  }, [phone, email, company, variant]);
+  }, [phone, company, variant]);
 
   const switchTo = (v: Variant) => {
     setVariant(v);
@@ -49,7 +45,7 @@ export default function Page() {
     }
 
     const payload = new URLSearchParams({
-      Contact: variant === 'personal' ? phone.trim() : email.trim(),
+      Phone: phone.trim(),
       UserType: variant,
       BusinessWebsite: variant === 'enterprise' ? company.trim() : '',
       UserAgent: navigator.userAgent || '',
@@ -126,7 +122,7 @@ export default function Page() {
                AI web navigation is here, is your website prepared?
              </p>
                <p className="leading-relaxed text-lg">
-               Learn how to conduct Generative Engine Optimization.
+               Learn about Generative Engine Optimization.
              </p>
            </div>
          )}
@@ -138,14 +134,14 @@ export default function Page() {
             <input id="website" name="website" type="text" className="hidden" tabIndex={-1} autoComplete="off" />
 
              <label className="block">
-               <span className="sr-only">{variant === 'personal' ? 'Phone number' : 'Email'}</span>
+               <span className="sr-only">Phone number</span>
                <input
                  required
-                 type={variant === 'personal' ? 'tel' : 'email'}
-                 name={variant === 'personal' ? 'phone' : 'email'}
-                 placeholder={variant === 'personal' ? '+1 (555) 123-4567' : 'you@email.com'}
-                 value={variant === 'personal' ? phone : email}
-                 onChange={(e) => variant === 'personal' ? setPhone(e.target.value) : setEmail(e.target.value)}
+                 type="tel"
+                 name="phone"
+                 placeholder="+1 (555) 123-4567"
+                 value={phone}
+                 onChange={(e) => setPhone(e.target.value)}
                  className="w-full h-12 rounded-full bg-zinc-900/50 border border-zinc-700/50 px-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm"
                />
              </label>
