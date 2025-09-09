@@ -117,7 +117,7 @@ export default function Page() {
                Never click a link again to get where you need to.
              </p>
              <p className="leading-relaxed text-lg">
-               Web browsing should be dead simple.
+               Browse with intention.
              </p>
            </div>
          ) : (
