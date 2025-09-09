@@ -168,7 +168,7 @@ export default function Page() {
                  submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
                ].join(' ')}
              >
-               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out More'}
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out'}
              </button>
 
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
