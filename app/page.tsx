@@ -110,16 +110,16 @@ export default function Page() {
          {variant === 'personal' ? (
            <div className="space-y-4 text-zinc-300">
              <p className="leading-relaxed text-lg">
-               Never click a link again to get where you need to.
+               To never clicking a link again!
              </p>
              <p className="leading-relaxed text-lg">
-               Browse with purpose.
+               Browse with purpose 👇
              </p>
            </div>
          ) : (
            <div className="space-y-4 text-zinc-300">
              <p className="leading-relaxed text-lg">
-               AI web navigation is here
+               AI web navigation is here ...
              </p>
                <p className="leading-relaxed text-lg">
                Is your website easy to read?
