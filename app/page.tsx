@@ -113,7 +113,7 @@ export default function Page() {
                Never click a link again to get where you need to.
              </p>
              <p className="leading-relaxed text-lg">
-               Web browsing should be dead simple.
+               Browse with purpose.
              </p>
            </div>
          ) : (
@@ -168,20 +168,20 @@ export default function Page() {
                  submitting || !canSubmit ? 'bg-green-500/70 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/25',
                ].join(' ')}
              >
-               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out'}
+               {submitting ? 'Submitting…' : variant === 'personal' ? 'Patch Me In' : 'Find Out More'}
              </button>
 
              {error && <p className="text-sm text-red-400 text-center mt-2">{error}</p>}
 
              <p className="text-xs text-zinc-500 text-center mt-4 leading-relaxed">
-               By submitting, you agree to receive updates from Toby.
+               By submitting, you agree to receive updates.
              </p>
           </form>
          ) : (
            <div className="mt-8 rounded-2xl border border-green-600/40 bg-green-500/10 p-6 backdrop-blur-sm">
              <p className="text-green-400 text-center leading-relaxed">
                {variant === 'personal'
-                 ? "You're on the list! We'll email you when the beta opens."
+                 ? "You're on the list! We'll text you."
                  : "You're on the list! We'll review your site and follow up."}
              </p>
            </div>
