@@ -45,7 +45,7 @@ export default function Page() {
     }
 
     const payload = new URLSearchParams({
-      Phone: phone.trim(),
+      Email: phone.trim(),
       UserType: variant,
       BusinessWebsite: variant === 'enterprise' ? company.trim() : '',
       UserAgent: navigator.userAgent || '',
