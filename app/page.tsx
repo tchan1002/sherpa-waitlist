@@ -154,7 +154,7 @@ export default function Page() {
                <label className="block">
                  <span className="sr-only">Company website</span>
                  <input
-                   type="url"
+                   type="text"
                    name="company_website"
                    placeholder="https://company.com"
                    value={company}
